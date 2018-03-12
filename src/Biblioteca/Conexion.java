@@ -11,7 +11,7 @@ import java.sql.*;
  */
 public class Conexion {
     
-    //Parametros para la conexion
+    //Parametros para la conexion en MySQL
     public Connection conexion =null;
     public Statement s =null;
     public ResultSet rs=null;
