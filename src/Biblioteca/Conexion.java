@@ -10,6 +10,8 @@ import java.sql.*;
  * @author Usuario
  */
 public class Conexion {
+    
+    //Parametros para la conexion
     public Connection conexion =null;
     public Statement s =null;
     public ResultSet rs=null;
