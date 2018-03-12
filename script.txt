@@ -1,0 +1,44 @@
+CREATE DATABASE material;
+USE material;
+
+CREATE TABLE libro(
+autor TEXT,
+titulo TEXT,
+clasificacion TEXT,
+publisher TEXT,
+edicion TEXT,
+descripcion TEXT,
+isbn TEXT,
+temas TEXT,
+notas TEXT
+);
+
+
+insert into libro values(
+"Autor",
+"Titulo",
+"Clasificacion",
+"publisher",
+"edicion",
+"descripcion",
+"isbn",
+"temas",
+"notas"
+);
+
+insert into libro values(
+"Lemay, Laura",
+"Aprendiendo Java 2 en 21 Días / Laura Lemay",
+"Libro 005.366 L550 2000",
+"MEXICO, MEXICO : PRENTICE HALL,
+ 2000",
+"1a.",
+"615 P.",
+"970-17-0229-8",
+"COMPUTACION,JAVA",
+"Comprado en julio 2001"
+);
+
+
+SELECT * FROM libro
+WHERE temas LIKE '%TEMA_BUSCAR%'
