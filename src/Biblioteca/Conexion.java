@@ -23,7 +23,7 @@ public class Conexion {
  //obtenemos el driver de para mysql
     Class.forName("com.mysql.jdbc.Driver");
     // Se obtiene una conexión con la base de datos.
-    conexion = DriverManager.getConnection ("jdbc:mysql://localhost:3306/Material","root", "123456");
+    conexion = DriverManager.getConnection ("jdbc:mysql://localhost:3306/biblioteca","root", "");
     // Permite ejecutar sentencias SQL sin parámetros
     s = conexion.createStatement();
     }

@@ -5,19 +5,49 @@
  */
 package FrameEncargado.Ingreso.Panels;
 
+import Biblioteca.Conexion;
+import java.sql.*;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Juan
  */
 public class IngresarUsuario extends javax.swing.JPanel {
+ public static final String URL="jdbc:mysql://localhost:3306/biblioteca";
+public static final String USERNAME="root";
+public static final String PASSWORD="";
+PreparedStatement ps;
+ResultSet rs;
 
+ static int bandera=0;
+public static Connection getConection(){
+    Connection con = null;
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = (Connection) DriverManager.getConnection(URL,USERNAME,PASSWORD);
+        System.out.println("Conexion exitosa.....");
+    }
+    catch(Exception ex1){
+        System.out.println("Error: "+ ex1);
+    }
+    return con;
+}
     /**
      * Creates new form IngresarUsuario
      */
     public IngresarUsuario() {
         initComponents();
     }
-
+ private void limpiarcajas(){
+        txtcarnet.setText(null);
+        txtnombre.setText(null);
+        txtapellido.setText(null);
+        txtcorreo.setText(null);
+        txttelefono.setText(null);
+        txtpass.setText(null);
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,58 +60,174 @@ public class IngresarUsuario extends javax.swing.JPanel {
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtcarnet = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtnombre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtapellido = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtcorreo = new javax.swing.JTextField();
+        txttelefono = new javax.swing.JTextField();
+        cmbusuario = new javax.swing.JComboBox<>();
+        btnguardar = new javax.swing.JButton();
+        txtpass = new javax.swing.JPasswordField();
 
         setBackground(new java.awt.Color(49, 52, 67));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(49, 52, 67));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("INGRESAR NUEVO USUARIO");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 54, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(268, 268, 268)
-                .addComponent(jLabel1)
-                .addContainerGap(248, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(jLabel1)
-                .addContainerGap(455, Short.MAX_VALUE))
-        );
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("CARNET:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 147, -1, -1));
+        jPanel1.add(txtcarnet, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 145, 126, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 869, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("NOMBRE:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 184, -1, -1));
+        jPanel1.add(txtnombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 182, 126, -1));
+
+        jLabel4.setText("APELLIDO:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(246, 221, -1, -1));
+        jPanel1.add(txtapellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 219, 126, -1));
+
+        jLabel5.setText("CORREO:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 258, -1, -1));
+
+        jLabel6.setText("TELEFONO");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(246, 295, -1, -1));
+
+        jLabel7.setText("PASSWORD:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 332, -1, -1));
+
+        jLabel8.setText("TIPO DE USUARIO:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 372, -1, -1));
+        jPanel1.add(txtcorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 256, 126, -1));
+
+        txttelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttelefonoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txttelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 293, 125, -1));
+
+        cmbusuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar Opcion", "Alumno", "Maestro", "Bibliotecario", " " }));
+        jPanel1.add(cmbusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 367, 100, -1));
+
+        btnguardar.setText("GUARDAR USUARIO");
+        btnguardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnguardarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnguardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 448, -1, -1));
+        jPanel1.add(txtpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 330, 125, -1));
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 710, 520));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txttelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttelefonoActionPerformed
+
+    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+ Connection con = null;
+        try {
+            
+            //          llamamos a la coneccion
+            if (cmbusuario.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(null, "Elija una opcion en tipo de usuario");
+            }
+            else if(txtcarnet.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese Carnet ");
+            }
+            else if(txtnombre.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese nombre ");
+            }else if(txtapellido.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese apellido ");
+            }else if(txttelefono.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese telefono ");
+            }else if(txtcorreo.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese correo ");
+            }else if(txtpass.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese pass ");
+            }
+            else if(txtcarnet.getText().length()>8){
+                            JOptionPane.showMessageDialog(null, "El carnet debe tener solo 8 digitos");
+            }
+            else {
+            con = getConection();
+            ps = con.prepareStatement("SELECT carnet from usuarios where carnet = ?");
+                        ps.setString(1, txtcarnet.getText());
+                        rs = ps.executeQuery();
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Usuario ya existe");
+            }
+            else{
+                    ps = con.prepareStatement("INSERT INTO usuarios (carnet, nombre,apellido,correo,telefono,pass,tipodeusuario) values (?,?,?,?,?,?,?)");
+            ps.setString(1,txtcarnet.getText());
+            ps.setString(2,txtnombre.getText());
+            ps.setString(3,txtapellido.getText());
+            ps.setString(4,txtcorreo.getText());
+            ps.setString(5,txttelefono.getText());
+            ps.setString(6,txtpass.getText());
+            ps.setInt(7,cmbusuario.getSelectedIndex());
+            //           fecha  ps.setDate(3, date.valueOf(txtfecha.getText()));
+             int res = ps.executeUpdate();
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Usuario Guardada");
+                limpiarcajas();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Error al agregar usuario");
+                limpiarcajas();
+            } 
+                }
+                
+            
+            
+        }
+        }
+        catch(Exception e){
+            System.err.println("Error: "+e);
+        }
+    }//GEN-LAST:event_btnguardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnguardar;
+    private javax.swing.JComboBox<String> cmbusuario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtapellido;
+    private javax.swing.JTextField txtcarnet;
+    private javax.swing.JTextField txtcorreo;
+    private javax.swing.JTextField txtnombre;
+    private javax.swing.JPasswordField txtpass;
+    private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables
 }

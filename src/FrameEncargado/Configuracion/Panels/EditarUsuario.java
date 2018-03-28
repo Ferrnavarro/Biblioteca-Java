@@ -5,19 +5,50 @@
  */
 package FrameEncargado.Configuracion.Panels;
 
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import java.sql.*;
 /**
  *
  * @author Juan
  */
 public class EditarUsuario extends javax.swing.JPanel {
+public static final String URL="jdbc:mysql://localhost:3306/biblioteca";
+public static final String USERNAME="root";
+public static final String PASSWORD="";
+PreparedStatement ps;
+PreparedStatement pss;
 
+ResultSet rs;
+
+ static int bandera=0;
+public static Connection getConection(){
+    Connection con = null;
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = (Connection) DriverManager.getConnection(URL,USERNAME,PASSWORD);
+        System.out.println("Conexion exitosa.....");
+    }
+    catch(Exception ex1){
+        System.out.println("Error: "+ ex1);
+    }
+    return con;
+}
     /**
      * Creates new form EditarUsuario
      */
     public EditarUsuario() {
         initComponents();
     }
-
+ private void limpiarcajas(){
+        txtcarnet.setText(null);
+        txtnombre.setText(null);
+        txtapellido.setText(null);
+        txtcorreo.setText(null);
+        txttelefono.setText(null);
+        txtpass.setText(null);
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,33 +59,199 @@ public class EditarUsuario extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtcarnet = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtnombre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtapellido = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtcorreo = new javax.swing.JTextField();
+        txttelefono = new javax.swing.JTextField();
+        cmbusuario = new javax.swing.JComboBox<>();
+        btnguardar = new javax.swing.JButton();
+        txtpass = new javax.swing.JPasswordField();
+        btnbuscar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(49, 52, 67));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("EDITAR USUARIO");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(378, 378, 378)
-                .addComponent(jLabel1)
-                .addContainerGap(422, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1)
-                .addContainerGap(473, Short.MAX_VALUE))
-        );
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("CARNET:");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
+        add(txtcarnet, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, 126, -1));
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("NOMBRE:");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, -1, -1));
+        add(txtnombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 126, -1));
+
+        jLabel4.setText("APELLIDO:");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, -1, -1));
+        add(txtapellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 126, -1));
+
+        jLabel5.setText("CORREO:");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, -1, -1));
+
+        jLabel6.setText("TELEFONO");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 270, -1, -1));
+
+        jLabel7.setText("PASSWORD:");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, -1, -1));
+
+        jLabel8.setText("TIPO DE USUARIO:");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, -1, -1));
+        add(txtcorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 126, -1));
+
+        txttelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttelefonoActionPerformed(evt);
+            }
+        });
+        add(txttelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, 125, -1));
+
+        cmbusuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar Opcion", "Alumno", "Maestro", "Bibliotecario", " " }));
+        add(cmbusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 340, 100, -1));
+
+        btnguardar.setText("GUARDAR USUARIO");
+        btnguardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnguardarActionPerformed(evt);
+            }
+        });
+        add(btnguardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 420, -1, -1));
+        add(txtpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 125, -1));
+
+        btnbuscar.setText("Buscar");
+        btnbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbuscarActionPerformed(evt);
+            }
+        });
+        add(btnbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 120, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txttelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttelefonoActionPerformed
+
+    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+        Connection con = null;
+        try {
+
+            //          llamamos a la coneccion
+            if (cmbusuario.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(null, "Elija una opcion en tipo de usuario");
+            }
+            else if(txtcarnet.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese Carnet ");
+            }
+            else if(txtnombre.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese nombre ");
+            }else if(txtapellido.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese apellido ");
+            }else if(txttelefono.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese telefono ");
+            }else if(txtcorreo.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese correo ");
+            }else if(txtpass.getText().isEmpty())
+            {
+            JOptionPane.showMessageDialog(null, "Ingrese pass ");
+            }
+            else if(txtcarnet.getText().length()>8){
+                            JOptionPane.showMessageDialog(null, "El carnet debe tener solo 8 digitos");
+            }
+            else {
+            con = getConection();
+            
+            ps = con.prepareStatement("UPDATE usuarios set carnet=?, nombre=?, apellido = ?, correo = ?, telefono = ?, pass = ? , tipodeusuario = ?  where carnet=?");
+
+            ps.setString(1,txtcarnet.getText());
+            ps.setString(2,txtnombre.getText());
+            ps.setString(3,txtapellido.getText());
+            ps.setString(4,txtcorreo.getText());
+            ps.setString(5,txttelefono.getText());
+            ps.setString(6,txtpass.getText());
+            ps.setInt(7,cmbusuario.getSelectedIndex());
+            ps.setString(8,txtcarnet.getText());
+
+            //           fecha  ps.setDate(3, date.valueOf(txtfecha.getText()));
+            int res = ps.executeUpdate();
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Usuario Editado");
+                limpiarcajas();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Error al editar usuario");
+                limpiarcajas();
+            }
+        }}
+        catch(Exception e){
+            System.err.println("Error: "+e);
+        }
+    }//GEN-LAST:event_btnguardarActionPerformed
+
+    private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
+        // TODO add your handling code here:
+          Connection con =null;
+
+        try{
+            con = getConection();
+            ps = con.prepareStatement("Select * from usuarios where carnet=?");
+            ps.setString(1, txtcarnet.getText());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                txtcarnet.setText(rs.getString("carnet"));
+                txtnombre.setText(rs.getString("nombre"));
+                txtapellido.setText(rs.getString("apellido"));
+                txtcorreo.setText(rs.getString("correo"));
+                txttelefono.setText(rs.getString("telefono"));
+                txtpass.setText(rs.getString("pass"));
+                pss.setInt(7, cmbusuario.getSelectedIndex());
+
+
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Carnet no existe");
+            }
+        }
+
+        catch(Exception e){
+
+        }
+    }//GEN-LAST:event_btnbuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnbuscar;
+    private javax.swing.JButton btnguardar;
+    private javax.swing.JComboBox<String> cmbusuario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField txtapellido;
+    private javax.swing.JTextField txtcarnet;
+    private javax.swing.JTextField txtcorreo;
+    private javax.swing.JTextField txtnombre;
+    private javax.swing.JPasswordField txtpass;
+    private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables
 }
