@@ -5,19 +5,70 @@
  */
 package FrameEncargado.Ingreso.Panels;
 
+import Biblioteca.Conexion;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Juan
  */
 public class IngresarEjemplar extends javax.swing.JPanel {
+ 
+ public static final String URL="jdbc:mysql://localhost:3306/biblioteca";
+public static final String USERNAME="root";
+public static final String PASSWORD="";
+PreparedStatement ps;
+ResultSet rs;
 
-    /**
-     * Creates new form IngresarEjemplar
-     */
+ static int bandera=0;
+public static Connection getConection(){
+    Connection con = null;
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = (Connection) DriverManager.getConnection(URL,USERNAME,PASSWORD);
+        System.out.println("Conexion exitosa.....");
+    }
+    catch(Exception ex1){
+        System.out.println("Error: "+ ex1);
+    }
+    return con;
+}
     public IngresarEjemplar() {
         initComponents();
+                Conexion con2;
+                Conexion con3;
+     try {
+         con2 = new Conexion(); //obtenemos codos lc: de la 'table tlpo_usuarlos
+          con2.setRs("select idioma from idioma"); 
+        this.cmbidioma.removeAllItems();
+        con2.rs=(ResultSet) con2.getRs();
+        while(con2.rs.next()){
+            this.cmbidioma.addItem(con2.rs.getString(1));
+        } 
+        con3 = new Conexion(); //obtenemos codos lc: de la 'table tlpo_usuarlos
+          con3.setRs("select nombreimprenta from imprentaeditorial"); 
+        this.cmbimprenta.removeAllItems();
+        con3.rs=(ResultSet) con3.getRs();
+        while(con3.rs.next()){
+            this.cmbimprenta.addItem(con3.rs.getString(1));
+        }
+        con2.cerrarConexion();
+        con3.cerrarConexion();
+     } catch (SQLException ex) {
+         Logger.getLogger(IngresarEjemplar.class.getName()).log(Level.SEVERE, null, ex);
+     }
+       
     }
-
+ private void limpiarcajas(){
+        txttitulo.setText(null);
+        txtedicion.setText(null);
+        txtdescripcion.setText(null);
+        txtnota.setText(null);
+        
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,33 +79,142 @@ public class IngresarEjemplar extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtedicion = new javax.swing.JTextField();
+        txttitulo = new javax.swing.JTextField();
+        txtdescripcion = new javax.swing.JTextField();
+        cmbidioma = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtnota = new javax.swing.JTextArea();
+        btningresar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        cmbimprenta = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(49, 52, 67));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("INGRESAR NUEVO EJEMPLAR");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(327, 56, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(327, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(329, 329, 329))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel1)
-                .addContainerGap(453, Short.MAX_VALUE))
-        );
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setText("NOTA:");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel3.setText("IDIOMA:");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel4.setText("EDICION:");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel5.setText("TITULO:");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel6.setText("DESCRIPCION:");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, -1, -1));
+        add(txtedicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 320, 30));
+        add(txttitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 320, 30));
+        add(txtdescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 320, 30));
+
+        cmbidioma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        add(cmbidioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 274, 190, 30));
+
+        txtnota.setColumns(20);
+        txtnota.setRows(5);
+        jScrollPane1.setViewportView(txtnota);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 360, 320, 90));
+
+        btningresar.setText("INGRESAR EJEMPLAR");
+        btningresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btningresarActionPerformed(evt);
+            }
+        });
+        add(btningresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 470, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel7.setText("IMPRENTA");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, -1, -1));
+
+        cmbimprenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        add(cmbimprenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 190, 30));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btningresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningresarActionPerformed
+                    Connection con = null;
+
+        try {
+
+            
+        if (txttitulo.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Ingrese titulo del libro. ");
+        }
+        else if(txtdescripcion.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(null, "Ingrese descripcion ");
+
+        }
+        else if(txtedicion.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(null, "Ingrese edicion ");
+
+        }
+        else if(txtnota.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(null, "Ingrese nota ");
+        }
+        else
+        {
+                        con = getConection();
+
+   ps = con.prepareStatement("INSERT INTO documentos (titulo, descripcion,edicion,ididioma,notas,idimprenedi) values (?,?,?,?,?,?)");
+            ps.setString(1,txttitulo.getText());
+            ps.setString(2,txtdescripcion.getText());
+            ps.setString(3,txtedicion.getText());
+            ps.setInt(4,cmbidioma.getSelectedIndex());
+            ps.setString(5,txtnota.getText());
+            ps.setInt(6,cmbimprenta.getSelectedIndex());
+
+            //           fecha  ps.setDate(3, date.valueOf(txtfecha.getText()));
+             int res = ps.executeUpdate();
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Ejemplar Guardada");
+                limpiarcajas();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Error al agregar ejemplar");
+                limpiarcajas();
+            } 
+        }
+        }
+         catch(Exception e){
+            System.err.println("Error: "+e);
+        }
+    }//GEN-LAST:event_btningresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btningresar;
+    private javax.swing.JComboBox<String> cmbidioma;
+    private javax.swing.JComboBox<String> cmbimprenta;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtdescripcion;
+    private javax.swing.JTextField txtedicion;
+    private javax.swing.JTextArea txtnota;
+    private javax.swing.JTextField txttitulo;
     // End of variables declaration//GEN-END:variables
 }
