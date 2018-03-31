@@ -33,6 +33,9 @@ public class FrameEncargado extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
+    //Variables globales
+    String carnet;
     public FrameEncargado() {
         initComponents();
         setLocationRelativeTo(null);
@@ -45,6 +48,13 @@ public class FrameEncargado extends javax.swing.JFrame {
             
             jPanel11.setBackground(new Color(39,41,54));
             jLabel6.setBackground(new Color(39,41,54));
+    }
+    
+    public FrameEncargado(String carnet)
+    {
+        this();
+        this.carnet = carnet;
+        label1.setText(carnet);
     }
     
     private void setImagen(String codigo){
@@ -231,7 +241,7 @@ public class FrameEncargado extends javax.swing.JFrame {
 
         label1.setFont(new java.awt.Font("Impact", 1, 24)); // NOI18N
         label1.setForeground(new java.awt.Color(151, 153, 150));
-        label1.setText("Juan");
+        label1.setText("Usuario");
         jPanel3.add(label1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
 
         label3.setFont(new java.awt.Font("Dotum", 1, 18)); // NOI18N

@@ -6,6 +6,7 @@
 package Biblioteca;
 
 import java.awt.Frame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -213,11 +214,28 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(this.jTextField1.getText().toLowerCase().equals("admin") && this.jPasswordField2.getText().toLowerCase().equals("123456")){
-            FrameEncargado encargado = new FrameEncargado();
+        
+        try {
+            Conexion con1 = new Conexion();
+            con1.rs = con1.s.executeQuery ("select Carnet, Pass from usuarios where Carnet = '"+this.jTextField1.getText()+"' and pass = '"+this.jPasswordField2.getText()+"'");
+            if(con1.rs.next()){
+            FrameEncargado encargado = new FrameEncargado(this.jTextField1.getText());
+            
             encargado.setVisible(true);
             this.dispose();
         }
+            else{
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña no valido");
+            }
+            
+            
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al conectar a la Base de Datos");
+        }
+        
+       
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
