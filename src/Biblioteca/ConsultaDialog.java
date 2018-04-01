@@ -66,7 +66,7 @@ public class ConsultaDialog extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
+        cmbMaterial = new javax.swing.JComboBox();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -196,8 +196,8 @@ public class ConsultaDialog extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Español", "Ingles", "Aleman", "Frances", "Portugues" }));
         jPanel5.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 460, 120, 30));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Libro", "Cassette", "CD-ROM", "Disco LP", "Diskette", "Documento", "DVD", "Mapa", "Plano", "Revista", "Tesis", "Texto digital", "VHS", "Video digital" }));
-        jPanel5.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 120, 30));
+        cmbMaterial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Libros", "Revistas", "DVD", "Tesis" }));
+        jPanel5.add(cmbMaterial, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 120, 30));
 
         jLabel19.setBackground(new java.awt.Color(54, 73, 94));
         jLabel19.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -283,8 +283,43 @@ public class ConsultaDialog extends javax.swing.JFrame {
         this.jPanel3.removeAll();
         try{
             
+    String tabla;
     Conexion con1 = new Conexion();
-    con1.rs = con1.s.executeQuery ("SELECT * FROM libro WHERE temas LIKE '%"+jTextField3.getText()+"'");
+            switch (cmbMaterial.getSelectedIndex()) {
+                case 0:
+                    tabla = " documentos ";
+                    break;
+                case 1:
+                    tabla = " libro ";
+                    break;
+                    
+                case 2:
+                    tabla = " revistas ";
+                    break;
+                case 3:
+                    tabla = " dvd ";
+                    break;
+                case 4:
+                    tabla = " tesis ";
+                    break;    
+                    
+                default:
+                    throw new AssertionError();
+            }
+    
+    
+    
+    
+    
+    con1.rs = con1.s.executeQuery ("select b.*, d.Nombre, e.nombreimprenta, a.* from "+ tabla+" a\n" +
+                                    "inner join documentos b on a.idDocumento = b.idDocumento\n" +
+                                    "left join autordocumento c on c.idDocumento = b.idDocumento\n" +
+                                    "left join autor d on d.idAutor = c.idAutor\n" +
+                                    "left join imprentaeditorial e on e.idImprenEdi = b.IdImprenEdi\n" +
+                                    "where b.Titulo like '%"+jTextField3.getText()+"%'  and d.Nombre like '%%'\n" +
+                                    "and b.IdIdioma like '%%'");
+    
+    //con1.rs = con1.s.executeQuery ("SELECT * FROM documentos WHERE Titulo LIKE '%"+jTextField3.getText()+"'");
 
     //Se recorre el ResultSet, mostrando por pantalla los resultados.
 
@@ -294,26 +329,29 @@ public class ConsultaDialog extends javax.swing.JFrame {
 
     int y=0;
     int cont=1;
+    
     while (con1.rs.next())
     {
-     JLabel titulo_label = new JLabel(String.valueOf(cont)+". "+con1.rs.getString(2));
+     //JOptionPane.showMessageDialog(null, con1.rs.getString(4));
+     JLabel titulo_label = new JLabel(String.valueOf(cont)+". "+con1.rs.getString(6));
      titulo_label.setForeground(Color.BLUE);
-     JLabel autor_label = new JLabel(con1.rs.getString(1));
-     JLabel publisher_label = new JLabel(con1.rs.getString(4));
-     JLabel clasificacion_label = new JLabel(con1.rs.getString(3));
+     JLabel autor_label = new JLabel(con1.rs.getString(8));
+     JLabel publisher_label = new JLabel(con1.rs.getString(9));
+     JLabel clasificacion_label = new JLabel();
      
      titulo_label.setFont(new Font("Century Gothic", Font.BOLD, 16));
      autor_label.setFont(new Font("Century Gothic", Font.PLAIN, 16));
      publisher_label.setFont(new Font("Century Gothic", Font.PLAIN, 16));
      clasificacion_label.setFont(new Font("Century Gothic", Font.PLAIN, 16));
      
-     final String datos[] = new String[9];
      
-     for(int i=1; i<9; i++)
+     final String datos[] = new String[12];
+     
+     for(int i=0; i<12; i++)
      {
-         datos[i-1] = con1.rs.getString(i);
+         datos[i] = con1.rs.getString(i+1);
      }
-     datos[8] = con1.rs.getString(9);
+     //datos[11] = con1.rs.getString(12);
      
      
      titulo_label.addMouseListener(new MouseAdapter() {
@@ -397,9 +435,9 @@ System.out.println("ERROR:Fallo en SQL: "+ex.getMessage());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cmbMaterial;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel14;

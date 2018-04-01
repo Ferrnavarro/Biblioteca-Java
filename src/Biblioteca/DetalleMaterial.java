@@ -18,15 +18,15 @@ public class DetalleMaterial extends javax.swing.JPanel {
      */
     public DetalleMaterial(String[] dato) {
         initComponents();
-        jLabel11.setText(dato[0]);
-        jLabel12.setText(dato[1]);
-        jLabel13.setText(dato[2]);
-        jLabel14.setText(dato[3]);
-        jLabel15.setText(dato[4]);
-        jLabel16.setText(dato[5]);
-        jLabel17.setText(dato[6]);
-        jLabel18.setText(dato[7]);
-        jLabel19.setText(dato[8]);
+        jLabel11.setText(dato[7]);
+        jLabel12.setText(dato[5]);
+        jLabel13.setText(dato[0]);
+        jLabel14.setText(dato[8]);
+        jLabel15.setText(dato[1]);
+        jLabel16.setText(dato[3]);
+        jLabel17.setText(dato[11]);
+        jLabel18.setText(dato[0]);
+        jLabel19.setText(dato[4]);
         
     }
 

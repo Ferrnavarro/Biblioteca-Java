@@ -619,12 +619,12 @@ public class FrameEncargado extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
+            .addGap(0, 680, Short.MAX_VALUE)
         );
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 990, 540));
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 990, 680));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1220, 580));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1220, 720));
 
         jPanel6.setBackground(new java.awt.Color(39, 41, 54));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -714,7 +714,7 @@ public class FrameEncargado extends javax.swing.JFrame {
 
         jPanel17.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
 
-        getContentPane().add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 580, 1230, 50));
+        getContentPane().add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 720, 1230, 110));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

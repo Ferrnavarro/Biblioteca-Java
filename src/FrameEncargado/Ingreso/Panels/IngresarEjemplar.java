@@ -20,6 +20,8 @@ public class IngresarEjemplar extends javax.swing.JPanel {
 public static final String USERNAME="root";
 public static final String PASSWORD="";
 PreparedStatement ps;
+PreparedStatement psAutor;
+PreparedStatement psDoc;
 ResultSet rs;
 
  static int bandera=0;
@@ -39,6 +41,7 @@ public static Connection getConection(){
         initComponents();
                 Conexion con2;
                 Conexion con3;
+                Conexion con4;
      try {
          con2 = new Conexion(); //obtenemos codos lc: de la 'table tlpo_usuarlos
           con2.setRs("select idioma from idioma"); 
@@ -54,8 +57,19 @@ public static Connection getConection(){
         while(con3.rs.next()){
             this.cmbimprenta.addItem(con3.rs.getString(1));
         }
+        con4 = new Conexion(); //obtenemos codos lc: de la 'table tlpo_usuarlos
+          con4.setRs("select Nombre from Autor"); 
+        this.cmbAutor.removeAllItems();
+        con4.rs=(ResultSet) con4.getRs();
+        while(con4.rs.next()){
+            this.cmbAutor.addItem(con4.rs.getString(1));
+        }
+        
+        
+        
         con2.cerrarConexion();
         con3.cerrarConexion();
+        con4.cerrarConexion();
      } catch (SQLException ex) {
          Logger.getLogger(IngresarEjemplar.class.getName()).log(Level.SEVERE, null, ex);
      }
@@ -91,8 +105,14 @@ public static Connection getConection(){
         jScrollPane1 = new javax.swing.JScrollPane();
         txtnota = new javax.swing.JTextArea();
         btningresar = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        lblTipoDoc = new javax.swing.JLabel();
         cmbimprenta = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        cmbAutor = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        cmbTipo = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        txtTipoDoc = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(49, 52, 67));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -103,36 +123,48 @@ public static Connection getConection(){
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(327, 56, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(240, 240, 240));
         jLabel2.setText("NOTA:");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 500, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(240, 240, 240));
         jLabel3.setText("IDIOMA:");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 370, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel4.setText("EDICION:");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, -1, -1));
+        jLabel4.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel4.setText("TIPO:");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 320, -1, -1));
+        jLabel4.getAccessibleContext().setAccessibleName("AUTOR:");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(240, 240, 240));
         jLabel5.setText("TITULO:");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(240, 240, 240));
         jLabel6.setText("DESCRIPCION:");
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, -1, -1));
+
+        txtedicion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtedicionActionPerformed(evt);
+            }
+        });
         add(txtedicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 320, 30));
         add(txttitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 320, 30));
         add(txtdescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 320, 30));
 
         cmbidioma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        add(cmbidioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 274, 190, 30));
+        add(cmbidioma, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 360, 190, 30));
 
         txtnota.setColumns(20);
         txtnota.setRows(5);
         jScrollPane1.setViewportView(txtnota);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 360, 320, 90));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 500, 320, 90));
 
         btningresar.setText("INGRESAR EJEMPLAR");
         btningresar.addActionListener(new java.awt.event.ActionListener() {
@@ -140,18 +172,53 @@ public static Connection getConection(){
                 btningresarActionPerformed(evt);
             }
         });
-        add(btningresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 470, -1, -1));
+        add(btningresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 610, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel7.setText("IMPRENTA");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, -1, -1));
+        lblTipoDoc.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblTipoDoc.setForeground(new java.awt.Color(240, 240, 240));
+        lblTipoDoc.setText("ISBN:");
+        add(lblTipoDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 460, -1, -1));
 
         cmbimprenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        add(cmbimprenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 190, 30));
+        add(cmbimprenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 410, 190, 30));
+
+        jLabel8.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel8.setText("EDICION:");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, -1, -1));
+
+        cmbAutor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        add(cmbAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 270, 190, 30));
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel9.setText("AUTOR:");
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, -1, -1));
+
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Revista", "Tesis", "DVD" }));
+        cmbTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoActionPerformed(evt);
+            }
+        });
+        add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 190, 30));
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel10.setText("IMPRENTA");
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 410, -1, -1));
+
+        txtTipoDoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTipoDocActionPerformed(evt);
+            }
+        });
+        add(txtTipoDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 460, 310, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btningresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningresarActionPerformed
                     Connection con = null;
+                    Connection conAutor = null;
 
         try {
 
@@ -173,6 +240,7 @@ public static Connection getConection(){
         else
         {
                         con = getConection();
+                        conAutor = getConection();
 
    ps = con.prepareStatement("INSERT INTO documentos (titulo, descripcion,edicion,ididioma,notas,idimprenedi) values (?,?,?,?,?,?)");
             ps.setString(1,txttitulo.getText());
@@ -181,6 +249,9 @@ public static Connection getConection(){
             ps.setInt(4,cmbidioma.getSelectedIndex());
             ps.setString(5,txtnota.getText());
             ps.setInt(6,cmbimprenta.getSelectedIndex());
+            
+            
+            
 
             //           fecha  ps.setDate(3, date.valueOf(txtfecha.getText()));
              int res = ps.executeUpdate();
@@ -192,6 +263,42 @@ public static Connection getConection(){
                 JOptionPane.showMessageDialog(null, "Error al agregar ejemplar");
                 limpiarcajas();
             } 
+            
+           //Ingresar el autor y el documento a la tabla autordocumento          
+            psAutor= con.prepareStatement("insert into autordocumento values (?, (select max(idDocumento) from documentos))");
+            psAutor.setInt(1, cmbAutor.getSelectedIndex()+1);
+            int resautor = psAutor.executeUpdate();
+            int resDoc;
+            switch (cmbTipo.getSelectedIndex()) {
+                case 0:
+                    psDoc = con.prepareStatement("insert into libro (idDocumento, ISBN) values((select max(idDocumento) from documentos), ?)");
+                    psDoc.setString(1, txtTipoDoc.getText());
+                     resDoc = psDoc.executeUpdate();                  
+                    break;
+                case 1:
+                    psDoc = con.prepareStatement("insert into revistas (idDocumento, ISSN) values((select max(idDocumento) from documentos), ?)");
+                    psDoc.setString(1, txtTipoDoc.getText());
+                    resDoc = psDoc.executeUpdate();  
+                    break;
+                case 2:
+                    psDoc = con.prepareStatement("insert into tesis (idDocumento) values((select max(idDocumento) from documentos))");                 
+                    resDoc = psDoc.executeUpdate();
+                      
+                    break;
+                case 3:
+                    psDoc = con.prepareStatement("insert into dvd (idDocumento, ISAN) values((select max(idDocumento) from documentos), ?)");
+                    psDoc.setString(1, txtTipoDoc.getText());
+                    resDoc = psDoc.executeUpdate();
+                    break;
+                default:
+                    break;
+            }
+            
+            
+            
+            
+            
+            
         }
         }
          catch(Exception e){
@@ -199,19 +306,61 @@ public static Connection getConection(){
         }
     }//GEN-LAST:event_btningresarActionPerformed
 
+    private void txtedicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtedicionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtedicionActionPerformed
+
+    private void txtTipoDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipoDocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTipoDocActionPerformed
+
+    private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
+     // TODO add your handling code here:
+     switch (cmbTipo.getSelectedIndex()) {
+         case 0:
+             lblTipoDoc.setText("ISBN:");
+             txtTipoDoc.setVisible(true);
+             break;
+         case 1:
+             lblTipoDoc.setText("ISSN:");
+             txtTipoDoc.setVisible(true);
+             break;
+         case 2:
+             lblTipoDoc.setText("");
+             txtTipoDoc.setVisible(false);
+             break;
+         case 3:
+             lblTipoDoc.setText("ISAN:");
+             txtTipoDoc.setVisible(true);
+             break;
+         default:
+             break;
+     }
+       
+        
+        
+        
+    }//GEN-LAST:event_cmbTipoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btningresar;
+    private javax.swing.JComboBox<String> cmbAutor;
+    private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JComboBox<String> cmbidioma;
     private javax.swing.JComboBox<String> cmbimprenta;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTipoDoc;
+    private javax.swing.JTextField txtTipoDoc;
     private javax.swing.JTextField txtdescripcion;
     private javax.swing.JTextField txtedicion;
     private javax.swing.JTextArea txtnota;
