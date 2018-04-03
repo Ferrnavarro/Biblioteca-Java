@@ -20,9 +20,18 @@ import java.util.Date;
 import javax.swing.ImageIcon;
 import FrameEncargado.Ingreso.Panels.*;
 import FrameEncargado.Configuracion.Panels.*;
+import static FrameEncargado.Configuracion.Panels.EditarUsuario.getConection;
 import FrameEncargado.Informacion.Panels.*;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 /**
  *
@@ -30,6 +39,28 @@ import javax.swing.SwingUtilities;
  */
 public class FrameEncargado extends javax.swing.JFrame {
     
+     
+ public static final String URL="jdbc:mysql://localhost:3306/biblioteca";
+public static final String USERNAME="root";
+public static final String PASSWORD="";
+PreparedStatement ps;
+PreparedStatement psAutor;
+PreparedStatement psDoc;
+ResultSet rs;
+
+ static int bandera=0;
+public static Connection getConection(){
+    Connection con = null;
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = (Connection) DriverManager.getConnection(URL,USERNAME,PASSWORD);
+        System.out.println("Conexion exitosa.....");
+    }
+    catch(Exception ex1){
+        System.out.println("Error: "+ ex1);
+    }
+    return con;
+}
     /**
      * Creates new form NewJFrame
      */
@@ -935,35 +966,87 @@ public class FrameEncargado extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
-    private void mostrarPanel_AgregarUsuario(){
+    private void mostrarPanel_AgregarUsuario() throws SQLException{
+                  Connection con =null;
+        try{
+            con = getConection();
+            ps = con.prepareStatement("Select tipodeusuario from usuarios where carnet=?");
+            ps.setString(1,this.carnet);
+                    rs = ps.executeQuery();
+                    rs.next();
+                    if (rs.getInt("tipodeusuario") == 3){
         this.jPanel5.removeAll();
         IngresarUsuario nuevo_usuario = new IngresarUsuario();
         this.jPanel5.setLayout(new FlowLayout());
         this.jPanel5.add(nuevo_usuario);
-        SwingUtilities.updateComponentTreeUI(this);
+        SwingUtilities.updateComponentTreeUI(this);        
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "No puedes ingresar aqui");
+                    }
+        } 
+        catch(Exception e){
+        } 
     }
     
     private void mostrarPanel_EditarUsuario(){
-        this.jPanel5.removeAll();
+                 Connection con =null;
+        try{
+            con = getConection();
+            ps = con.prepareStatement("Select tipodeusuario from usuarios where carnet=?");
+            ps.setString(1,this.carnet);
+                    rs = ps.executeQuery();
+                    rs.next();
+                    if (rs.getInt("tipodeusuario") == 3){
+         this.jPanel5.removeAll();
         EditarUsuario editar = new EditarUsuario();
         this.jPanel5.setLayout(new FlowLayout());
         this.jPanel5.add(editar);
-        SwingUtilities.updateComponentTreeUI(this);
+        SwingUtilities.updateComponentTreeUI(this);  }
+                    else{
+                        JOptionPane.showMessageDialog(null, "No puedes ingresar aqui");
+                    }
+        } 
+        catch(Exception e){
+        } 
+       
     }
     
     private void mostrarPanel_EditarPrestamo(){
-        this.jPanel5.removeAll();
+         Connection con =null;
+        try{
+            con = getConection();
+            ps = con.prepareStatement("Select tipodeusuario from usuarios where carnet=?");
+            ps.setString(1,this.carnet);
+                    rs = ps.executeQuery();
+                    rs.next();
+                    if (rs.getInt("tipodeusuario") == 3){
+         this.jPanel5.removeAll();
         EditarPrestamo editar = new EditarPrestamo();
         this.jPanel5.setLayout(new FlowLayout());
         this.jPanel5.add(editar);
-        SwingUtilities.updateComponentTreeUI(this);
+        SwingUtilities.updateComponentTreeUI(this); }
+                    else{
+                        JOptionPane.showMessageDialog(null, "No puedes ingresar aqui");
+                    }
+        } 
+        catch(Exception e){
+        } 
+       
+    
+       
     }
     
     private void jLabel37MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel37MouseClicked
-        mostrarPanel_AgregarUsuario();
+        try {
+            mostrarPanel_AgregarUsuario();
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameEncargado.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jLabel37MouseClicked
 
     private void mostrarPanel_CalcularMora(){
+       
         this.jPanel5.removeAll();
         CalcularMora mora = new CalcularMora();
         this.jPanel5.setLayout(new FlowLayout());
@@ -980,6 +1063,7 @@ public class FrameEncargado extends javax.swing.JFrame {
     }
     
     private void mostrarPanel_AgregarCategoria(){
+        
         this.jPanel5.removeAll();
         IngresarCategoria nueva_categoria = new IngresarCategoria();
         this.jPanel5.setLayout(new FlowLayout());
@@ -1015,11 +1099,28 @@ public class FrameEncargado extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel17MouseClicked
 
     private void mostrarPanel_Ejemplar(){
-        this.jPanel5.removeAll();
+         Connection con =null;
+        try{
+            con = getConection();
+            ps = con.prepareStatement("Select tipodeusuario from usuarios where carnet=?");
+            ps.setString(1,this.carnet);
+                    rs = ps.executeQuery();
+                    rs.next();
+                    if (rs.getInt("tipodeusuario") == 3){
+         this.jPanel5.removeAll();
         IngresarEjemplar nuevo_ejemplar = new IngresarEjemplar();
         this.jPanel5.setLayout(new FlowLayout());
         this.jPanel5.add(nuevo_ejemplar);
-        SwingUtilities.updateComponentTreeUI(this);
+        SwingUtilities.updateComponentTreeUI(this); }
+                    else{
+                        JOptionPane.showMessageDialog(null, "No puedes ingresar aqui");
+                    }
+        } 
+        
+        catch(Exception e){
+        } 
+        
+        
     }
     
     private void jLabel33MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel33MouseClicked
@@ -1075,7 +1176,11 @@ public class FrameEncargado extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel34MouseEntered
 
     private void jLabel36MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel36MouseClicked
-        mostrarPanel_AgregarUsuario();
+     try {
+         mostrarPanel_AgregarUsuario();
+     } catch (SQLException ex) {
+         Logger.getLogger(FrameEncargado.class.getName()).log(Level.SEVERE, null, ex);
+     }
     }//GEN-LAST:event_jLabel36MouseClicked
 
     private void jLabel32MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel32MouseClicked

@@ -59,8 +59,6 @@ public static Connection getConection(){
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        jDateComponentFactory1 = new org.jdatepicker.JDateComponentFactory();
-        jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -160,11 +158,14 @@ public static Connection getConection(){
             }
             
             else{
-                    ps = con.prepareStatement("INSERT INTO prestamos (IdUsuario, IdEjemplar,Fecha,FechaDevolucion) values (?,?,?,?)");
-            ps.setString(1,txtcarnet.getText());
-            ps.setString(2,txtejemplar.getText());
-            ps.setString(3,txtFecha.getText());
-            ps.setString(4,txtFechaDev.getText());
+                    ps = con.prepareStatement("INSERT INTO prestamos (idprestamo,IdUsuario, IdEjemplar,Fecha,FechaDevolucion) values (?,?,?,?)");
+                       ps.setString(1,txtejemplar.getText());
+
+                    
+                    ps.setString(2,txtcarnet.getText());
+            ps.setString(3,txtejemplar.getText());
+            ps.setString(4,txtFecha.getText());
+            ps.setString(5,txtFechaDev.getText());
             
             //           fecha  ps.setDate(3, date.valueOf(txtfecha.getText()));
              int res = ps.executeUpdate();
@@ -190,8 +191,6 @@ public static Connection getConection(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnguardar;
-    private org.jdatepicker.JDateComponentFactory jDateComponentFactory1;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
