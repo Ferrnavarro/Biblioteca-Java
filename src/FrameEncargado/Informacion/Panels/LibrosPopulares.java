@@ -5,6 +5,15 @@
  */
 package FrameEncargado.Informacion.Panels;
 
+import Biblioteca.Conexion;
+import FrameEncargado.Ingreso.Panels.IngresarEjemplar;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Juan
@@ -14,9 +23,66 @@ public class LibrosPopulares extends javax.swing.JPanel {
     /**
      * Creates new form LibrosPopulares
      */
+    
+    public static final String URL="jdbc:mysql://localhost:3306/biblioteca";
+    public static final String USERNAME="root";
+    public static final String PASSWORD="";
+    PreparedStatement ps;
+    ResultSet rs;
+    DefaultTableModel model = null;
+    
     public LibrosPopulares() {
         initComponents();
+        llenarTabla();
     }
+    
+    
+    public void llenarTabla()
+    {
+                Conexion con2;
+                Conexion con3;
+                Conexion con4;
+     try {
+         con2 = new Conexion(); //obtenemos codos lc: de la 'table tlpo_usuarlos
+          con2.setRs("select c.Titulo, b.IdEjemplar, count(b.IdEjemplar) as 'Veces Prestado' from  prestamos a \n" +
+                        "left join ejemplar b on a.IdEjemplar = b.IdEjemplar\n" +
+                        "left join documentos c on c.idDocumento = b.idDocumento\n" +
+                        "group by b.IdEjemplar;"); 
+          
+          Object [][] data = null;
+          String []columns =
+          {"Titulo", "Id Ejemplar", "Veces Prestado"};
+          model = new DefaultTableModel (data, columns);
+          this.jTable1.setModel(model);
+          
+          rs = con2.getRs();
+          
+          while (rs.next())
+          {
+              Object [] newRow = {
+                  rs.getString(1),
+                  rs.getString(2),
+                  rs.getString(3),
+                  //rs.getString(4)
+             
+          };
+              model.addRow(newRow);
+          }
+          
+                 
+          
+        
+        
+        
+        
+        
+        con2.cerrarConexion();
+        
+     } catch (SQLException ex) {
+         Logger.getLogger(IngresarEjemplar.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,12 +94,27 @@ public class LibrosPopulares extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(49, 52, 67));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("LIBROS POPULARES");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -43,18 +124,26 @@ public class LibrosPopulares extends javax.swing.JPanel {
                 .addContainerGap(395, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(376, 376, 376))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(236, 236, 236)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jLabel1)
-                .addContainerGap(469, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

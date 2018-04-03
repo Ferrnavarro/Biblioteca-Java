@@ -5,7 +5,14 @@
  */
 package Biblioteca;
 
+import FrameEncargado.Ingreso.Panels.IngresarEjemplar;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,8 +23,24 @@ public class DetalleMaterial extends javax.swing.JPanel {
     /**
      * Creates new form DetalleMaterial
      */
-    public DetalleMaterial(String[] dato) {
+    public static final String URL="jdbc:mysql://localhost:3306/biblioteca";
+    public static final String USERNAME="root";
+    public static final String PASSWORD="";
+    PreparedStatement ps;
+    ResultSet rs;
+    DefaultTableModel model = null;
+    String [] datos;
+    
+    
+    public DetalleMaterial()
+    {
         initComponents();
+        
+    }
+    
+    public DetalleMaterial(String[] dato) {
+        this();
+        this.datos = dato;
         jLabel11.setText(dato[7]);
         jLabel12.setText(dato[5]);
         jLabel13.setText(dato[0]);
@@ -27,8 +50,51 @@ public class DetalleMaterial extends javax.swing.JPanel {
         jLabel17.setText(dato[11]);
         jLabel18.setText(dato[0]);
         jLabel19.setText(dato[4]);
+        llenarTabla(datos[0]);
         
     }
+    
+    
+    public void llenarTabla(String doc)
+    {
+                Conexion con2;
+     try {
+         con2 = new Conexion(); //obtenemos codos lc: de la 'table tlpo_usuarlos
+          con2.setRs("select a.IdEjemplar, c.Titulo, a.Ubicacion, b.Estado from ejemplar a\n" +
+                        "left join estado b on a.fk_IdEstado = b.IdEstado\n" +
+                        "left join documentos c on a.idDocumento = c.idDocumento\n" +
+                        "where a.idDocumento ="+ doc+";"); 
+          
+          Object [][] data = null; 
+          String []columns =
+          {"Id Ejemplar", "Titulo", "Ubicacion", "Estado"};
+          model = new DefaultTableModel (data, columns);
+          this.jTable2.setModel(model);
+          
+          rs = con2.getRs();
+          
+          while (rs.next())
+          {
+              Object [] newRow = {
+                  rs.getString(1),
+                  rs.getString(2),
+                  rs.getString(3),
+                  rs.getString(4)
+             
+          };
+              model.addRow(newRow);
+          }
+          
+                
+        con2.cerrarConexion();
+        
+     } catch (SQLException ex) {
+         Logger.getLogger(IngresarEjemplar.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,6 +105,8 @@ public class DetalleMaterial extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -48,8 +116,6 @@ public class DetalleMaterial extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -60,6 +126,21 @@ public class DetalleMaterial extends javax.swing.JPanel {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -85,26 +166,10 @@ public class DetalleMaterial extends javax.swing.JPanel {
         jLabel7.setText("ISBN:");
 
         jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel8.setText("Temas:");
+        jLabel8.setText("Id Documento:");
 
         jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel9.setText("Notas:");
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 661, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 148, Short.MAX_VALUE)
-        );
-
-        jScrollPane1.setViewportView(jPanel1);
 
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel10.setText("Ubicación de copias:");
@@ -135,6 +200,19 @@ public class DetalleMaterial extends javax.swing.JPanel {
 
         jLabel19.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel19.setText("%");
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -179,9 +257,13 @@ public class DetalleMaterial extends javax.swing.JPanel {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel19))
-                    .addComponent(jLabel10)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(93, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,8 +306,9 @@ public class DetalleMaterial extends javax.swing.JPanel {
                     .addComponent(jLabel19))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -250,7 +333,9 @@ public class DetalleMaterial extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }

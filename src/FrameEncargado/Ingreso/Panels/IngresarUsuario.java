@@ -88,28 +88,35 @@ public static Connection getConection(){
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 54, -1, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(240, 240, 240));
         jLabel2.setText("CARNET:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 147, -1, -1));
         jPanel1.add(txtcarnet, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 145, 126, -1));
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setForeground(new java.awt.Color(240, 240, 240));
         jLabel3.setText("NOMBRE:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 184, -1, -1));
         jPanel1.add(txtnombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 182, 126, -1));
 
+        jLabel4.setForeground(new java.awt.Color(240, 240, 240));
         jLabel4.setText("APELLIDO:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(246, 221, -1, -1));
         jPanel1.add(txtapellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 219, 126, -1));
 
+        jLabel5.setForeground(new java.awt.Color(240, 240, 240));
         jLabel5.setText("CORREO:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 258, -1, -1));
 
+        jLabel6.setForeground(new java.awt.Color(240, 240, 240));
         jLabel6.setText("TELEFONO");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(246, 295, -1, -1));
 
+        jLabel7.setForeground(new java.awt.Color(240, 240, 240));
         jLabel7.setText("PASSWORD:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 332, -1, -1));
 
+        jLabel8.setForeground(new java.awt.Color(240, 240, 240));
         jLabel8.setText("TIPO DE USUARIO:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 372, -1, -1));
         jPanel1.add(txtcorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(332, 256, 126, -1));

@@ -549,6 +549,11 @@ public class FrameEncargado extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("PRESTAMOS");
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
         jPanel15.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, -1, 50));
 
         jPanel4.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 230, 50));
@@ -1109,6 +1114,11 @@ public class FrameEncargado extends javax.swing.JFrame {
         mostrarPanel_LibrosPopulares();
     }//GEN-LAST:event_jLabel43MouseClicked
 
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        // TODO add your handling code here:
+        mostrarPanel_IngresoPrestamos();
+    }//GEN-LAST:event_jLabel10MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1210,4 +1220,14 @@ public class FrameEncargado extends javax.swing.JFrame {
     private java.awt.Label label3;
     private java.awt.Label label4;
     // End of variables declaration//GEN-END:variables
+
+    private void mostrarPanel_IngresoPrestamos() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.jPanel5.removeAll();
+        IngresarPrestamo ingresar = new IngresarPrestamo();
+        this.jPanel5.setLayout(new FlowLayout());
+        this.jPanel5.add(ingresar);
+        SwingUtilities.updateComponentTreeUI(this);
+        
+    }
 }

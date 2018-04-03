@@ -6,10 +6,12 @@
 package FrameEncargado.Ingreso.Panels;
 
 import Biblioteca.Conexion;
+import java.awt.FlowLayout;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author Juan
@@ -113,13 +115,14 @@ public static Connection getConection(){
         cmbTipo = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         txtTipoDoc = new javax.swing.JTextField();
+        btnAgregarEjemplares = new java.awt.Button();
 
         setBackground(new java.awt.Color(49, 52, 67));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("INGRESAR NUEVO EJEMPLAR");
+        jLabel1.setText("INGRESAR NUEVO ELEMENTO");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(327, 56, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -166,7 +169,7 @@ public static Connection getConection(){
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 500, 320, 90));
 
-        btningresar.setText("INGRESAR EJEMPLAR");
+        btningresar.setText("INGRESAR ELEMENTO");
         btningresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btningresarActionPerformed(evt);
@@ -214,6 +217,16 @@ public static Connection getConection(){
             }
         });
         add(txtTipoDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 460, 310, -1));
+
+        btnAgregarEjemplares.setActionCommand("INGRESAR");
+        btnAgregarEjemplares.setLabel("INGRESAR EJEMPLARES");
+        btnAgregarEjemplares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarEjemplaresActionPerformed(evt);
+            }
+        });
+        add(btnAgregarEjemplares, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 610, 170, 30));
+        btnAgregarEjemplares.getAccessibleContext().setAccessibleName("INGRESAR EJEMPLARES");
     }// </editor-fold>//GEN-END:initComponents
 
     private void btningresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningresarActionPerformed
@@ -342,8 +355,17 @@ public static Connection getConection(){
         
     }//GEN-LAST:event_cmbTipoActionPerformed
 
+    private void btnAgregarEjemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEjemplaresActionPerformed
+        // TODO add your handling code here:
+        IngresarEjemplares ingres = new IngresarEjemplares();
+        ingres.setVisible(true);
+        
+        
+    }//GEN-LAST:event_btnAgregarEjemplaresActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.awt.Button btnAgregarEjemplares;
     private javax.swing.JButton btningresar;
     private javax.swing.JComboBox<String> cmbAutor;
     private javax.swing.JComboBox<String> cmbTipo;

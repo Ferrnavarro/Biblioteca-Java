@@ -85,28 +85,35 @@ public static Connection getConection(){
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(240, 240, 240));
         jLabel2.setText("CARNET:");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
         add(txtcarnet, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, 126, -1));
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setForeground(new java.awt.Color(240, 240, 240));
         jLabel3.setText("NOMBRE:");
         add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, -1, -1));
         add(txtnombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 126, -1));
 
+        jLabel4.setForeground(new java.awt.Color(240, 240, 240));
         jLabel4.setText("APELLIDO:");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, -1, -1));
         add(txtapellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 126, -1));
 
+        jLabel5.setForeground(new java.awt.Color(240, 240, 240));
         jLabel5.setText("CORREO:");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, -1, -1));
 
+        jLabel6.setForeground(new java.awt.Color(240, 240, 240));
         jLabel6.setText("TELEFONO");
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 270, -1, -1));
 
+        jLabel7.setForeground(new java.awt.Color(240, 240, 240));
         jLabel7.setText("PASSWORD:");
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, -1, -1));
 
+        jLabel8.setForeground(new java.awt.Color(240, 240, 240));
         jLabel8.setText("TIPO DE USUARIO:");
         add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, -1, -1));
         add(txtcorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 126, -1));
